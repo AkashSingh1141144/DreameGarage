@@ -3,12 +3,28 @@ import { motion } from "framer-motion";
 
 const Footer = lazy(() => import("../components/Footer"));
 
+// Lazy Video Component
+const HeroVideo = () => (
+  <video
+    className="w-full max-h-96 object-cover rounded-md"
+    autoPlay
+    loop
+    muted
+    playsInline
+    poster="/videos/poster.png"
+  >
+    <source src="/videos/hero.mp4" type="video/mp4" />
+  </video>
+);
+const LazyHeroVideo = lazy(() =>
+  Promise.resolve({ default: HeroVideo })
+);
+
 const Home = () => {
   return (
     <>
       <div className="flex flex-col py-16 px-6">
         {/* Heading */}
-
         <motion.h1
           initial={{ opacity: 0, x: -100 }}
           animate={{ opacity: 1, x: 0 }}
@@ -20,23 +36,25 @@ const Home = () => {
             In The World
           </span>
         </motion.h1>
+
+        {/* Video Section with Lazy Loading */}
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
           className="w-full  rounded-2xl overflow-hidden py-14"
         >
-          <video
-            className="w-full max-h-96 object-cover rounded-md"
-            autoPlay
-            loop
-            muted
-            playsInline
-            poster="/videos/poster.png"
+          <Suspense
+            fallback={
+              <div className="flex justify-center items-center h-60 text-lg text-sky-500 font-semibold">
+                Loading Video...
+              </div>
+            }
           >
-            <source src="/videos/hero.mp4" type="video/mp4" />
-          </video>
+            <LazyHeroVideo />
+          </Suspense>
         </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,6 +65,7 @@ const Home = () => {
           <br />
           The Ultimate Driving Machine
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, x: 100 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -91,6 +110,8 @@ const Home = () => {
         </motion.p>
         <hr className="border-gray-500 my-14" />
       </div>
+
+      {/* Footer Lazy Load */}
       <Suspense
         fallback={
           <div className="flex justify-center items-center h-screen text-xl font-bold text-sky-600">

@@ -31,7 +31,7 @@ html, body {
 
 }
 body {
-  min-height: ; /* content height se zyada rakho taaki scroll ho sake */
+  /* min-height: ; */
   overflow-y: scroll;
   
   overflow-x: hidden;
